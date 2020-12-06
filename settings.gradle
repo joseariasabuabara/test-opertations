@@ -1,0 +1,5 @@
+rootProject.name = 'test-operations'
+include 'appgate-test-starter'
+include 'appgate-test-session'
+include 'appgate-test-operations'
+

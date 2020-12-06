@@ -1,0 +1,16 @@
+
+*.lock
+*.bin
+*.class
+.gradle/6.3/gc.properties
+.gradle/buildOutputCleanup/cache.properties
+.gradle/licenseHeader.txt
+.gradle/vcs-1/gc.properties
+.idea/.name
+.idea/compiler.xml
+.idea/google-java-format.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
+out/rules-spotbugs.xml

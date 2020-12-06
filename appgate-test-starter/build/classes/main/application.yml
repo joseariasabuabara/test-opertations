@@ -1,0 +1,25 @@
+adl:
+  endpoint:
+    base: v1
+security:
+  ignored=/**:
+jwt:
+  token:
+    basic:
+      signing:
+        secret: authkey18*
+        keyalias: authkey
+        publickey: authkey-public.txt
+        keytool: authkey.jks
+    expiration:
+      seconds: 1800
+server:
+  port: 8083
+  servlet:
+    contextPath: /
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping.health: health

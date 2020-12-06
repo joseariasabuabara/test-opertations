@@ -1,0 +1,6 @@
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(':appgate-test-session')
+    compile(group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: "$dynamoVersion")
+    compile group: 'com.deliveredtechnologies', name: 'rulebook-core', version: "$deliveredTechnologies"
+}

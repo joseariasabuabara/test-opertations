@@ -1,0 +1,122 @@
+buildscript {
+
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "io.franzbecker:gradle-lombok:$gradleLombokVersion"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('io.springfox:springfox-core') with module("io.springfox:springfox-core:${springFoxCoreVersion}")
+        }
+    }
+
+}
+
+
+apply from: "https://gradle.avaldigitallabs.com/resources/java-ms-project.gradle"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+    }
+}
+
+bootJar {
+    enabled = true
+    mainClassName = 'co.com.appgate.test.starter.Application'
+}
+
+jar {
+    enabled = false
+}
+
+
+dependencies {
+    compile project(':appgate-test-starter')
+}
+
+allprojects {
+    apply plugin: "io.franzbecker.gradle-lombok"
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('io.springfox:springfox-core') with module("io.springfox:springfox-core:${springFoxCoreVersion}")
+        }
+    }
+}
+
+subprojects {
+
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('io.springfox:springfox-core') with module("io.springfox:springfox-core:${springFoxCoreVersion}")
+        }
+    }
+
+    dependencies {
+
+        implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
+            force = true
+        }
+        implementation("org.springframework.security.oauth:spring-security-oauth2:$springBootSecurityVersion") {
+            force = true
+        }
+        implementation("org.springframework.security:spring-security-web:$springBootSecurityWeb") {
+            force = true
+        }
+
+        implementation("commons-beanutils:commons-beanutils:$commonsBeanutils") {
+            force = true
+        }
+        implementation("commons-io:commons-io:$commonsIO") {
+            force = true
+        }
+        implementation("ch.qos.logback:logback-core:$logbackCore") {
+            force = true
+        }
+        implementation("org.bouncycastle:bcprov-jdk15on:$bcprovJDK15on") {
+            force = true
+        }
+        implementation("org.apache.httpcomponents:httpclient:$apacheHttpClientVersion") {
+            force = true
+        }
+        implementation("org.apache.logging.log4j:log4j-core:$apacheLog4jCore") {
+            force = true
+        }
+
+
+        compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: "$springCloud"
+
+
+        compile(group: 'org.projectlombok', name: 'lombok', version: '0.11.0')
+        runtimeOnly group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: "$springBootVersion"
+
+        testCompile group: 'org.jacoco', name: 'org.jacoco.core', version: '0.8.4'
+        testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "$springBootVersion") {
+            exclude(module: 'commons-logging')
+        }
+        testCompile group: 'org.mockito', name: 'mockito-core', version: "$mockitoVersion"
+    }
+}
+
+task releaseBuild {
+    dependsOn(
+        'bpop-bc-authentication-service:build',
+        'bpop-bc-authentication-model:build'
+    )
+}
+
+task publishCurrent {
+    dependsOn('artifactoryPublish')
+}
+
+

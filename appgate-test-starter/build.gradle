@@ -1,0 +1,17 @@
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    compile project(':appgate-test-session')
+    compile project(':appgate-test-operations')
+    compile group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: "${springBootVersion}"
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-core', version: "$springCloud"
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: "$springCloud"
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: "$wiremockStandaloneVersion"
+    runtime group: 'org.aspectj', name: 'aspectjweaver', version: "$aspectJWeaverVersion"
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+    }
+}
